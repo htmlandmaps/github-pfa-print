@@ -25,6 +25,12 @@ define([
     "esri/dijit/OverviewMap",
     "dijit/registry",
     "dojo/_base/array",
+	
+    //for printing
+	"esri/dijit/Print",
+	"esri/tasks/PrintTemplate",
+	"esri/tasks/LegendLayer", //for legend printing
+	
     "esri/lang"
 ],
 function (
@@ -49,6 +55,10 @@ function (
     OverviewMap,
     registry,
     array,
+	//print
+		Print,
+	PrintTemplate,
+	LegendLayer,
     esriLang
 ) {
 
@@ -408,6 +418,32 @@ function (
             }
             // drawer size check
             this._drawer.resize();
+			
+			
+			//for PRINTER ***********************
+					if (this.config.enablePrintButton) {           //if the printing function is enabled true
+					 /*
+					 var legendLayer = new LegendLayer();
+					legendLayer.layerId = [0, 1, 2, 4, 5, 7, 8, 9, 10, 11, 12];
+					console.log(legendLayer.layerId); 
+					console.log(legendLayer.subLayerIds); */
+					
+					this._printer = new Print({                          //create a new printer widget called this._printer
+					map: this.map,     //the map to print
+					templates: [{
+  label: "Layout",
+  format: "PDF",
+  layout: "A3 Landscape",
+  layoutOptions: {
+    titleText: "Priority Funding Areas Map",
+  }
+}],
+					url: "http://geodata.md.gov/imap/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task"    //the url to export the web map task
+					}, dom.byId("printButton"));   //html element where the print widget button/drop down will be rendered
+					this._printer.startup();                     //finalize the creation of the widget
+					}
+			
+			
         },
         _checkMobileGeocoderVisibility: function () {
             if (this._mobileGeocoderIconNode && this._mobileSearchNode) {
