@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<configuration>
+    <title>2009 Parcel Points</title>     
+    <fields>
+        <field name="JURSCODE" alias="County" visible="true"/>                  
+        <field name="ACCTID" alias="Account ID" visible="true"/>       
+        <field name="ADDRESS" alias="Address" visible="true"/>  
+        <field name="CITY"   alias="City" visible="true"/> 
+        <field name="ZIPCODE" alias="Zip Code" visible="true"/>  
+    </fields>  
+</configuration>
+
+<!--
+    Pop-up configuration file for:
+    http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/SanFrancisco/311Incidents/FeatureServer/0
+-->

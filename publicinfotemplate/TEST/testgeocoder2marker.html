@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+    <title>Test Geocoder for PFA</title>
+
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/dojo/dijit/themes/claro/claro.css">
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/esri/css/esri.css">
+    <link rel="stylesheet" href="css/layout.css">
+
+	<style>
+      #search {
+        display: block;
+        position: absolute;
+        z-index: 2;
+        top: 20px;
+        left: 75px;
+      } 
+    </style>
+
+
+    <script src="http://js.arcgis.com/3.9/"></script>
+    <script>
+	//define variables
+	  var geocoder;
+
+	//call widgets
+      require([
+        "dojo/parser",
+        "dojo/ready",
+        "dijit/layout/BorderContainer",
+        "dijit/layout/ContentPane",
+		"dojo/dom",
+		
+    
+        "esri/map", 
+        "esri/urlUtils",
+        "esri/arcgis/utils",
+        "esri/dijit/Legend",
+        "esri/dijit/Scalebar",
+		"esri/dijit/Geocoder",
+		
+		 "esri/graphic",
+		  "esri/symbols/SimpleMarkerSymbol",
+		  "esri/geometry/screenUtils",
+
+		  //"dojo/dom",
+		  "dojo/dom-construct",
+		  "dojo/query",
+		  "dojo/_base/Color",
+
+		
+        "dojo/domReady!"
+      ], function(
+        parser,
+        ready,
+        BorderContainer,
+        ContentPane,
+        dom,
+        Map,
+        urlUtils,
+        arcgisUtils,
+        Legend,
+        Scalebar,
+		Geocoder,
+		Graphic, 
+		SimpleMarkerSymbol, 
+		screenUtils,
+		//dom,
+		domConstruct, 
+		query, 
+		Color
+      ) {
+	  
+	  //create a map and instance of geocoder and other widgets here
+        ready(function(){
+
+        parser.parse();
+
+
+        arcgisUtils.createMap("b3f8327bfe194e6ea5daf9b8a7b83a54","mapDiv").then(function(response){
+          //update the app 
+          dom.byId("title").innerHTML = response.itemInfo.item.title;
+          dom.byId("subtitle").innerHTML = response.itemInfo.item.snippet;
+
+          var actualmap = response.map;
+
+
+          //add the scalebar 
+          var scalebar = new Scalebar({
+            map: actualmap,
+            scalebarUnit: "english"
+          });
+
+          //add the legend. Note that we use the utility method getLegendLayers to get 
+          //the layers to display in the legend from the createMap response.
+          var legendLayers = arcgisUtils.getLegendLayers(response); 
+          var legendDijit = new Legend({
+            map: actualmap,
+            layerInfos: legendLayers
+          },"legend");
+          legendDijit.startup();
+
+		  // add a graphics layer for geocoding results
+                actualmap.addLayer(new esri.layers.GraphicsLayer({
+                  id: "results"
+                }));     
+		  
+			
+			//create geocoder
+			geocoder = new Geocoder({
+			  map: actualmap,
+			  autoComplete: true,
+			  arcgisGeocoder: false,
+			  geocoders: [{
+		  "name": "MD Cascading Locator without zip codes",
+		  "url": "http://mdimap.us/ArcGIS/rest/services/GeocodeServices/MD.State.MDCascadingLocatorWithoutZIPCodes/GeocodeServer",
+          "countryCode":"USA",
+          "currentExtent":false,
+          "placeholder": "Search",
+          "singleLineFieldName":"SingleLine"
+      }], 
+       
+			},"search");
+			geocoder.startup();
+	
+	
+	  dojo.connect(geocoder, "onSelect", result); 
+	  function locate (result) {
+      map.graphics.clear();
+      var point = result.feature.geometry;
+      var symbol = new SimpleMarkerSymbol().setStyle("square").setColor(new Color([255,0,0,0.5]));
+var graphic = new Graphic(point, symbol);
+      map.graphics.add(graphic);
+
+      map.infoWindow.setTitle("Search Result");
+      map.infoWindow.setContent(result.name);
+      map.infoWindow.show(result.feature.geometry);
+    };
+
+
+	 
+	
+
+})})})
+//show results of geocoder on map
+
+    </script>
+  </head>
+
+  <body class="claro">
+    <div id="mainWindow" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline'" style="width:100%; height:100%;">
+      <div id="header" class="shadow roundedCorners" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'">
+        <div id="title"></div>
+        <div id="subtitle"></div>
+      </div>
+      <div id="mapDiv" class="roundedCorners shadow" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
+	  <div id="search"></div>
+	  </div>
+      <div id="rightPane" class="roundedCorners shadow" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'right'" >
+        <div id="legend"></div>
+      </div>
+    </div>
+  </body>
+</html>

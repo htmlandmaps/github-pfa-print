@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Test Base</title>
+    <link rel="stylesheet" type="text/css" href="//js.arcgis.com/3.9/js/dojo/dijit/themes/claro/claro.css">
+    <link rel="stylesheet" type="text/css" href="//js.arcgis.com/3.9/js/dojo/dijit/themes/claro/document.css">
+
+    <link rel="stylesheet" type="text/css" href="//js.arcgis.com/3.9/js/dojo/dojox/layout/resources/FloatingPane.css">
+
+    <link rel="stylesheet" type="text/css" href="//js.arcgis.com/3.9/js/esri/css/esri.css" />
+
+    <link rel="stylesheet" type="text/css" href="css/layout.css">
+	  <!--[if IE]>
+      <link rel="stylesheet" type="text/css" href="css/ie.css" />
+    <![endif]-->
+	
+	
+	<style type="text/css">
+	 html, body, #mapDiv, .map.container {
+                height:100%;
+                width:100%;
+                margin:0;
+                padding:0;
+     }
+	 
+	 #search{
+        display:block;
+        position:absolute;
+        z-index:3;
+        top:20px;
+        left:75px;
+     }
+
+	</style>
+	
+	<script type="text/javascript" src="//js.arcgis.com/3.9/">
+    </script>
+	
+	<script type="text/javascript" src="javascript/layout.js">
+    </script>
+	
+	<script type="text/javascript">
+	
+	//call required modules to access esri methods
+	
+	  dojo.require("esri.map");
+	  dojo.require("esri.arcgis.utils");
+      dojo.require("esri.layout");
+	  dojo.require("esri.dijit.Geocoder");
+	  dojo.require("dojo.domReady!");
+	
+//create variables	
+	  //var map;
+	 // var Geocoder;
+	  
+	   function init(){
+	 var webmapid = 'b3f8327bfe194e6ea5daf9b8a7b83a54';
+     esri.arcgis.utils.createMap(webmapid,'mapDiv');
+    }
+	   
+
+	// show map on load
+	dojo.ready(init); 
+    </script>
+	
+   </head>
+	
+   <body class="claro">
+		<div id="search"></div>
+		<div id="mapDiv"></div>
+   </body>
+	
+</html>

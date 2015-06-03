@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<configuration>
+   <title>Current Parcel Points</title>     
+   <description>
+        <![CDATA[ Account ID:  {ACCTID} <br><br>     Address:  {ADDRESS},<br>                        {CITY}, MD {ZIPCODE}<br><br>    More Info:   <a href="{SDATWEBADR}">SDAT Data</a> ]]>
+   </description>
+   <fields>               
+        <field name="ACCTID" />       
+        <field name="ADDRESS" />  
+        <field name="CITY" /> 
+        <field name="ZIPCODE" />
+        <field name="SDATWEBADR" />         
+    </fields>
+</configuration>
+<!--
+    Pop-up configuration file for:
+    http://server.arcgisonline.com/ArcGIS/rest/services/Demographics/USA_Median_Household_Income/MapServer/4
+   
+   
+-->

@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<configuration>
+    <locator>http://mdimap.towson.edu/ArcGIS/rest/services/GeocodeServices/MD.State.MDStatewideLocator/GeocodeServer</locator>
+    <minscore>40</minscore>
+  <fields> 
+    <field>name="Zone" alias="Zip Code" visible="true"</field>
+  </fields> 
+    <zoomscale>10000</zoomscale>
+    <usesingleline>false</usesingleline>  
+</configuration>
+
+<!--
+    See Locate widget documentation at
+    http://links.esri.com/locatewidget
+-->

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+    <title>Test Geocoder for PFA</title>
+
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/dojo/dijit/themes/claro/claro.css">
+    <link rel="stylesheet" href="http://js.arcgis.com/3.9/js/esri/css/esri.css">
+    <link rel="stylesheet" href="css/layout.css">
+
+	<style>
+      #search {
+        display: block;
+        position: absolute;
+        z-index: 2;
+        top: 20px;
+        left: 75px;
+      } 
+	  
+	  #LocateButton {
+      position: absolute;
+      top: 95px;
+      left: 20px;
+      z-index: 50;
+
+    </style>
+
+
+    <script src="http://js.arcgis.com/3.9/"></script>
+    <script>
+	//define variables
+	  var geocoder;
+
+	//call widgets
+      require([
+        "dojo/parser",
+        "dojo/ready",
+        "dijit/layout/BorderContainer",
+        "dijit/layout/ContentPane",
+		"dojo/dom",
+		
+    
+        "esri/map", 
+        "esri/urlUtils",
+        "esri/arcgis/utils",
+        "esri/dijit/Legend",
+        "esri/dijit/Scalebar",
+		"esri/dijit/LocateButton",
+		"esri/dijit/Geocoder",
+		
+		 "esri/graphic",
+		  "esri/symbols/SimpleMarkerSymbol",
+		  "esri/geometry/screenUtils",
+
+		  //"dojo/dom",
+		  "dojo/dom-construct",
+		  "dojo/query",
+		  "dojo/_base/Color",
+		  
+		  
+
+		
+        "dojo/domReady!"
+      ], function(
+        parser,
+        ready,
+        BorderContainer,
+        ContentPane,
+        dom,
+        Map,
+        urlUtils,
+        arcgisUtils,
+        Legend,
+        Scalebar,
+		LocateButton,
+		Geocoder,
+		Graphic, 
+		SimpleMarkerSymbol, 
+		screenUtils,
+		//dom,
+		domConstruct, 
+		query, 
+		Color
+      ) {
+	  
+	  //create a map and instance of geocoder and other widgets here
+        ready(function(){
+
+        parser.parse();
+
+
+        arcgisUtils.createMap("b3f8327bfe194e6ea5daf9b8a7b83a54","mapDiv").then(function(response){
+          //update the app 
+          dom.byId("title").innerHTML = response.itemInfo.item.title;
+          dom.byId("subtitle").innerHTML = response.itemInfo.item.snippet;
+
+          var actualmap = response.map;
+
+
+          //add the scalebar 
+          var scalebar = new Scalebar({
+            map: actualmap,
+            scalebarUnit: "english"
+          });
+		  
+		  
+		  //locate button
+		   geoLocate = new LocateButton({
+        map: actualmap,
+			scale: 11,
+		useTracking: true
+      }, "LocateButton");
+      geoLocate.startup();
+
+          //add the legend. Note that we use the utility method getLegendLayers to get 
+          //the layers to display in the legend from the createMap response.
+          var legendLayers = arcgisUtils.getLegendLayers(response); 
+          var legendDijit = new Legend({
+            map: actualmap,
+            layerInfos: legendLayers
+          },"legend");
+          legendDijit.startup();
+
+		  // add a graphics layer for geocoding results
+                actualmap.addLayer(new esri.layers.GraphicsLayer({
+                  id: "results"
+                }));     
+		  
+		  // Add a graphics layer for geocoding results
+                // this.map.addLayer(new esri.layers.GraphicsLayer({
+                   // id: "lyrGeoCodeResults"
+                // }));
+			
+			//create geocoder
+			geocoder = new Geocoder({
+			  map: actualmap,
+			  autoComplete: true,
+			  arcgisGeocoder: false,
+			  geocoders: [{
+		  "name": "MD Cascading Locator without zip codes",
+		  "url": "http://mdimap.us/ArcGIS/rest/services/GeocodeServices/MD.State.MDCascadingLocatorWithoutZIPCodes/GeocodeServer",
+          "countryCode":"USA",
+          "currentExtent":false,
+          "placeholder": "Search",
+          "singleLineFieldName":"SingleLine"
+      }], 
+       
+			},"search");
+			geocoder.startup();
+			geocoder.focus();
+			
+		var psymbol = new PictureMarkerSymbol({
+		"angle" : 0,
+		"xoffset" : 0,
+		"yoffset" : 10,
+		"type" : "esriPMS",
+		"url" : "http://static.arcgis.com/images/Symbols/Shapes/BluePin1LargeB.png",
+		"contentType" : "image/png",
+		"width" : 24,
+		"height" : 24
+	});
+
+		var templateGC = new InfoTemplate("${name}", "${*}"); //Title is name of Address searched
+		//dojo.connect(geocoder, "onSelect", locate);
+		connect.connect(geocoder, "onSelect", locate);
+		function locate(result) {
+			var map = actualmap
+			var l = map.getLayer("result");
+			l.clear();
+			gcFeature = result.feature;
+			map.infoWindow.hide();
+			gcFeature.attributes.name = result.name;
+			gcFeature.setSymbol(psymbol);
+			gcFeature.setInfoTemplate(templateGC);
+			l.add(gcFeature);
+			var geom;
+			geom = gcFeature.geometry;
+			map.setScale(2000);
+			map.centerAt(geom);
+		}
+
+	 
+	
+
+})})})
+//show results of geocoder on map
+
+    </script>
+  </head>
+
+  <body class="claro">
+    <div id="mainWindow" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline'" style="width:100%; height:100%;">
+      <div id="header" class="shadow roundedCorners" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'">
+        <div id="title"></div>
+        <div id="subtitle"></div>
+      </div>
+      <div id="mapDiv" class="roundedCorners shadow" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
+	  <div id="search"></div>
+	  <div id="LocateButton"></div>
+	  </div>
+      <div id="rightPane" class="roundedCorners shadow" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'right'" >
+        <div id="legend"></div>
+      </div>
+    </div>
+  </body>
+</html>

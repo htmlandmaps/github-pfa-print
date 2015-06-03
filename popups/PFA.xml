@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<configuration>        
+    <title>Priority Funding Areas</title>         
+    <fields>               
+        <field name="JURSCODE" alias="Jurisdiction:" visible="true"/>
+    </fields>       
+</configuration>

@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<configuration>
+    <title>Comment</title>        
+    <fields>
+         <field name="description" alias="Desc." visible="true"/>  
+    </fields>
+</configuration>
+
+<!--
+    Pop-up configuration file for:
+    http://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Fire/Sheep/FeatureServer/0
+-->

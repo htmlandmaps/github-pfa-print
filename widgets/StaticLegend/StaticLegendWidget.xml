@@ -1,0 +1,8 @@
+<configuration>
+
+    <imageurl>assets/images/Legend.jpg</imageurl>
+    <!-- Set in th mxml for now, not working
+    <boxWidth>200</boxWidth>
+    <boxHeight>175</boxHeight>
+    -->
+</configuration>

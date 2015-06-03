@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<configuration>
+    <about>
+       <label>About Priority Funding Areas</label>
+       <visible>true</visible>
+       <width>375</width>
+       <height>200</height>
+       <content>
+        <![CDATA[<p align='center'><img src='assets/images/mdplogo.gif' width='100' height='45' /></p>
+        <font size="16"><b>Priority Funding Areas</b></font>
+        <br><p>Maryland Department of Planning</p>
+        <br>More information at links below:
+        <br><a href="http://planning.maryland.gov/ourproducts/pfamap.shtml" target='_blank'><font color='#FFFF00'>Priority Funding Areas</font></a>
+        <br><a href="http://planning.maryland.gov/home.shtml" target='_blank'><font color='#FFFF00'>MDP</font></a></p></textformat>
+		<br><a href="http://www.dhcd.state.md.us/website/programs/dn/Default.aspx" target='_blank'><font color='#FFFF00'>Sustainable Communities-DHCD</font></a></p></textformat>
+        ]]>
+        </content>
+        <btnlabel>OK</btnlabel>
+    </about>
+</configuration>
+
+<!--
+    See HeaderController widget documentation at
+    http://links.esri.com/headercontrollerwidget
+-->

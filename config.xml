@@ -1,0 +1,69 @@
+<?xml version="1.0" ?>
+
+<configuration>
+    <title>Maryland Priority Funding Areas</title>
+    <subtitle>One Maryland One Map</subtitle>
+    <logo>assets/images/mdplogo.gif</logo>
+    <style>
+        <colors>0xFFFFFF,0x333333,0x101010,0x000000,0xFFD700</colors>
+        <alpha>0.8</alpha>
+    </style>
+
+    <!-- UI elements -->
+    <!--<widget right="20"  top="80"   config="widgets/StaticImage/StaticImageWidget.xml" url="widgets/StaticImage/StaticImageWidget.swf"/>-->
+    <widget left="10"  top="50"    config="widgets/Navigation/NavigationWidget.xml" url="widgets/Navigation/NavigationWidget.swf"/>
+    <widget right="-2" bottom="-2" config="widgets/OverviewMap/OverviewMapWidget.xml" url="widgets/OverviewMap/OverviewMapWidget.swf"/>
+    <widget right="20" top="55"    config="widgets/MapSwitcher/MapSwitcherWidget.xml" url="widgets/MapSwitcher/MapSwitcherWidget.swf"/>
+    <widget left="0"   top="0"     config="widgets/HeaderController/HeaderControllerWidget.xml" url="widgets/HeaderController/HeaderControllerWidget.swf"/>
+    
+    <map top="40" esrilogovisible="false">
+        <basemaps>
+            <layer label="Street Map" type="tiled" visible="true" alpha="1" icon="com/esri/solutions/flexviewer/assets/images/icons/i_highway.png" url="http://mdimap.towson.edu/arcgis/rest/services/ImageryBaseMapsEarthCover/MD.State.MDiMap_Gazetteer83M/MapServer"/>
+            <layer label="Imagery Map" type="tiled" visible="false" alpha="1" icon="com/esri/solutions/flexviewer/assets/images/icons/i_shuttle.png" url="http://mdimap.towson.edu/arcgis/rest/services/ImageryBaseMapsEarthCover/MD.State.NAIPImagery.2007/MapServer"/>    
+        </basemaps>
+        <operationallayers>
+            <layer label="Priority Funding Areas" type="dynamic" visible="true" alpha=".7" 
+            	url="http://mdpgis.mdp.state.md.us/arcgis/rest/services/PlanningCadastre/Priority_Funding_Areas/MapServer">
+            	<sublayer id="0" popupconfig="popups/PFA.xml"/>
+            </layer>            	
+            <layer label="Municipalities" type="tiled" visible="true" alpha=".7" url="http://mdpgis.mdp.state.md.us/arcgis/rest/services/Boundaries/Municipalities/MapServer"/>
+            <!--layer label="Rural Villages" type="dynamic" visible="false" alpha=".7" url="http://mdpgis.mdp.state.md.us/arcgis/rest/services/RuralVillages/MapServer"/-->
+            <layer label="Inner Beltways" type="dynamic" visible="false" alpha=".7" url="http://mdpgis.mdp.state.md.us/arcgis/rest/services/InnerBeltways/MapServer"/>
+            <!--layer label="Heritage Areas" type="dynamic" visible="false" alpha=".7" url="http://mdpgis.mdp.state.md.us/arcgis/rest/services/HeritageAreas/MapServer"/-->
+            <layer label="Sustainable Communities" type="dynamic" visible="false" alpha=".7" url="http://mdimap.towson.edu/ArcGIS/rest/services/PlanningCadastre/MD.State.SustainableCommunities/MapServer"/>
+    	    <layer label="Enterprise Zones" type="dynamic" visible="false" alpha=".7" url="http://mdimap.towson.edu/ArcGIS/rest/services/PlanningCadastre/MD.State.EnterpriseZones/MapServer"/>
+	    <layer label="Parcel Boundaries" type="tiled" visible="false" alpha=".7" url="http://mdimap.towson.edu/ArcGIS/rest/services/PlanningCadastre/MD.State.ParcelBoundaries/MapServer"/>
+	    <layer label="Parcel Points" type="tiled" visible="true" alpha="1"
+                url="http://mdpgis.mdp.state.md.us/arcgis/rest/services/PlanningCadastre/Property_Points/MapServer">
+                <sublayer id="0" popupconfig="popups/ParcelPoints.xml"/>
+            </layer>
+        </operationallayers>
+    </map>
+
+    <!-- widgets organized into widget containers that manage close/open etc -->
+    <!-- supported layout property options: horizontal(default)|float|vertical|fix-->
+    <widgetcontainer layout="float">
+        
+        <widget label="Legend" right="5" top="290"
+                preload="open"
+                config="widgets/StaticLegend/StaticLegendWidget.xml"
+                icon="assets/images/Legend32.png"
+                url="widgets/StaticLegend/StaticLegendWidget.swf"/>  
+        <widget label="Find an address" left="100" top="90" preload="open"
+                icon="assets/images/home.png"
+                config="widgets/Locate/LocateWidget_imap.xml"
+                url="widgets/Locate/LocateWidget.swf"/>
+        <!-- widget label="Identify" left="330" top="80"
+                icon="assets/images/i_info.png"
+                config="widgets/Identify/IdentifyWidget.xml"
+                url="widgets/Identify/IdentifyWidget.swf"/-->    
+       <widget label="Draw and Measure" left="60" top="400"
+                icon="assets/images/i_draw2.png"
+                config="widgets/Draw/DrawWidget.xml"
+                url="widgets/Draw/DrawWidget.swf"/>   
+        <widget label="Print" left="390" top="400"
+                icon="assets/images/i_print.png"
+                config="widgets/Print/PrintWidget.xml"
+                url="widgets/Print/PrintWidget.swf"/>
+    </widgetcontainer>
+</configuration>
