@@ -37,7 +37,7 @@ define({
     "openOverviewMap": false,
     "enableModifiedDate": false,
     "enableMoreInfo": false,
-		"enablePrintButton": false,
+		"enablePrintButton": true,
     "defaultBasemap": "osm",
     "nextBasemap": "hybrid",
     "notesLayer": {
